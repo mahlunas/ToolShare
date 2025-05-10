@@ -10,27 +10,91 @@ import com.mycompany.toolshare.model.Usuario;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Scanner;
-
+import java.util.ArrayList;
+import java.util.List;
+import com.mycompany.toolshare.controller.Plataforma;
+import com.mycompany.toolshare.view.Menu;
 /**
  *
  * @author lunas
  */
 public class ToolShare {
+        private static ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+        private static ArrayList<Ferramenta> ferramentas = new ArrayList<Ferramenta>();
+        private static ArrayList<Transacao> transacoes = new ArrayList<Transacao>();
+        private static Usuario usuario = null;
+        private static Ferramenta ferramenta = null;
+        private static Transacao transacao = null;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Plataforma plataforma = new Plataforma();
+        Menu menu = new Menu();
+        int opPrincipal, opMenus;
         
-        Usuario user = new Usuario("marcelle", "18996961088", "40506832880");
-        
-        Ferramenta ferramenta = new Ferramenta("martelo", "martelo", 5.0, "manual");
-        
-        Transacao transacao = new Transacao(user, ferramenta, LocalDate.of(2025,5,1));
-        transacao.setDataFim(LocalDate.of(2025,5,4));
-        
-        //transacao.calculaDias();
-        
-        transacao.devolverFerramenta(LocalDate.now());
-        System.out.println("Usuario:" + transacao.usuario.nome);
-        System.out.println("Ferramenta:" + transacao.ferramenta.nome);
+        do{
+            menu.menuPrincipal();
+            opPrincipal = scanner.nextInt();
+            
+            switch(opPrincipal){
+                //menu de usuarios
+                case 1:
+                    do{
+                        menu.menuDeUsuarios();
+                        opMenus = scanner.nextInt();
+                        
+                        switch(opMenus){
+                            //cadastrar
+                            case 1:
+                                usuario = plataforma.cadastrarUsuario(usuarios, scanner);
+                                if(usuario != null){
+                                    usuarios.add(usuario);
+                                    System.out.println("Usuario cadastrado com sucesso!");
+                                }
+                            //consultar cpf
+                            case 2:
+                                plataforma.cadastrarUsuario(usuarios, scanner);
+                            //editar cadastro
+                            case 3:
+                                plataforma.editarCadastro(usuarios, scanner);
+                            //excluir usuario
+                            case 4:
+                                usuario = plataforma.excluirUsuario(usuarios, scanner);
+                                if(usuario != null){
+                                    usuarios.remove(usuario);
+                                    System.out.println("Usuario removido");
+                                }
+                            //listar todos os usuarios
+                            case 5:
+                                plataforma.listarUsuario(usuarios);
+                        }
+                        
+                    }while(opMenus != 6);
+                
+                //menu de ferramentas
+                case 2:
+                    menu.menuDeFerramentas();
+                    opMenus = scanner.nextInt();
+                    
+                    do{
+                        switch(opMenus){
+                            case 1:
+                                
+                            case 2:
+                                
+                            case 3:
+                                
+                            case 4:
+                                
+                            case 5:
+                                plataforma.listaFerramentas(ferramentas);
+                        }
+                    }while(opMenus != 6);
+                
+                //menu de alugueis
+                case 3:
+                    menu.menuDeAlugueis();
+            }
+        }while(opPrincipal!=5);
     }
 }
