@@ -9,18 +9,22 @@ package com.mycompany.toolshare.model;
  * @author lunas
  */
 public class Ferramenta {
-    public String nome;
-    public String descricao;
-    public Double precoPorDia;
-    public String categoria;
+    private String nome;
+    private String descricao;
+    private Double precoPorDia;
+    private String categoria;
     private StatusFerramenta status;
+    public Usuario proprietario;
     
-    public Ferramenta (String nome, String descricao, Double precoPorDia, String categoria) {
+    public Ferramenta(){}
+    
+    public Ferramenta (String nome, String descricao, Double precoPorDia, String categoria, Usuario proprietario) {
         this.nome = nome;
         this.descricao = descricao;
         this.precoPorDia = precoPorDia;
         this.categoria = categoria;
         this.status = StatusFerramenta.DISPONIVEL;
+        this.proprietario = proprietario;
     }
 
     public String getNome() {
@@ -59,11 +63,33 @@ public class Ferramenta {
         return status;
     }
     
+    public Usuario getProprietario() {
+        return proprietario;
+    }
+
+    public void setProprietario(Usuario proprietario) {
+        this.proprietario = proprietario;
+    }
+    
     public void alterarStatus(String novoStatus){
         try{
             this.status = StatusFerramenta.valueOf(novoStatus.toUpperCase());
+            System.out.println("Status alterado com sucesso. Novo status:" + novoStatus);
         } catch (IllegalArgumentException e){
             System.out.println("Status inválido:" + novoStatus);
+        }
+    }
+    
+    public Double verificaCategoria(String categoria){
+        switch(categoria){
+            case "eletrica":
+                return 15.0;
+            case "manual":
+                return 8.0;
+            case "jardim":
+                return 12.0;
+            default:
+                return 0.0;
         }
     }
 }

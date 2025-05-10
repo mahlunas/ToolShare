@@ -12,18 +12,20 @@ import java.time.temporal.ChronoUnit;
  * @author lunas
  */
 public class Transacao {
-    public Usuario usuario;
-    public Ferramenta ferramenta;
-    public LocalDate dataInicio;
-    public LocalDate dataFim;
-    public int diasAtraso;
-    public Double multa;
+    private Usuario usuario;
+    private Ferramenta ferramenta;
+    private LocalDate dataInicio;
+    private LocalDate dataFim;
+    private int diasAtraso;
+    private Double multa;
+    private StatusTransacao status;
     
     public Transacao(Usuario usuario, Ferramenta ferramenta, LocalDate dataInicio){
         this.usuario = usuario;
         this.ferramenta = ferramenta;
         this.dataInicio = dataInicio;
         this.ferramenta.alterarStatus("alugada");
+        this.status = StatusTransacao.ATIVO;
     }
 
     public Usuario getUsuario() {
@@ -70,25 +72,11 @@ public class Transacao {
         return multa;
     }
     
-    public int calculaDias(LocalDate data){
-        int qtdDias =(int) ChronoUnit.DAYS.between(data, dataFim);
-        System.out.println(qtdDias);
-        return Math.abs(qtdDias);
+    public StatusTransacao getStatus() {
+        return status;
     }
-    
-    private Double calcularMulta(){
-        diasAtraso = calculaDias(dataInicio);
-        Double valorMulta = diasAtraso * 1.0;
-        System.out.println("valorMulta:" + valorMulta);
-        return valorMulta;
-    }
-    
-    public void devolverFerramenta(LocalDate dataEntrega){
-        int diasAlugados = calculaDias(dataInicio);
-        System.out.println("dias alugados:" + diasAlugados);
-        Double valorAluguel = ferramenta.getPrecoPorDia() * diasAlugados;
-        calculaDias(dataEntrega);
-        Double valorTotal = valorAluguel + calcularMulta();
-        System.out.println("Valor Total:" + valorTotal);
+
+    public void setStatus(StatusTransacao status) {
+        this.status = status;
     }
 }

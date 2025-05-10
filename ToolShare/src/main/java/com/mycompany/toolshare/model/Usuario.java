@@ -9,9 +9,11 @@ package com.mycompany.toolshare.model;
  * @author lunas
  */
 public class Usuario {
-    public String nome;
-    public String contato;
-    public String cpf;
+    private String nome;
+    private String contato;
+    private String cpf;
+    public Ferramenta[] ferramentas = new Ferramenta[5];
+    private int contador = 0;
     
     public Usuario (String nome, String contato, String cpf){
         this.nome = nome;
@@ -42,6 +44,30 @@ public class Usuario {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+
+    public Ferramenta getFerramentas(int index) {
+        if(index >= 0 && index < ferramentas.length){
+            return ferramentas[index];
+        }
+        return null;
+    }
+
+    public void setFerramentas(Ferramenta ferramenta, int index) {
+        if(index >= 0 && index < ferramentas.length){
+            ferramentas[index] = ferramenta;
+        } else {
+            System.out.println("Indice invalido");
+        }
+    }
     
-    
+    public boolean adicionarFerramentas(Ferramenta ferramenta){
+        if(contador < ferramentas.length){
+            ferramentas[contador] = ferramenta;
+            contador ++;
+            return true;
+        } else {
+            System.out.println("Limite de ferramentas atingido");
+            return false;
+        }
+    }
 }
