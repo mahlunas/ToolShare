@@ -264,11 +264,12 @@ public class Plataforma {
             System.out.println("Digite o nome da ferramenta desejada:");
             String nomeFerramenta = scanner.nextLine();
             Ferramenta f = buscaFerramenta(nomeFerramenta, ferramentas);
-            
-            if(f != null && !user.getNome().equals(f.getProprietario().getNome())){
+            System.out.println("Insira a quantidade de dias desejado para alguel");
+            int diasAlguel = scanner.nextInt();
+            if(f != null && !user.getNome().equals(f.getProprietario().getNome()) && (f.getCategoria().equals("jardim") && diasAlguel > 2)){
                 LocalDate data = LocalDate.now();
                 
-                Transacao t = new Transacao(user, f, data);
+                Transacao t = new Transacao(user, f, data, diasAlguel);
                 return t;
             }
         }

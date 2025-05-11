@@ -20,10 +20,11 @@ public class Transacao {
     private Double multa;
     private StatusTransacao status;
     
-    public Transacao(Usuario usuario, Ferramenta ferramenta, LocalDate dataInicio){
+    public Transacao(Usuario usuario, Ferramenta ferramenta, LocalDate dataInicio, int diasAluguel){
         this.usuario = usuario;
         this.ferramenta = ferramenta;
         this.dataInicio = dataInicio;
+        this.dataFim = dataInicio.plusDays(diasAluguel);
         this.ferramenta.alterarStatus("alugada", ferramenta);
         this.status = StatusTransacao.ATIVO;
     }
