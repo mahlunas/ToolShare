@@ -265,7 +265,7 @@ public class Plataforma {
             String nomeFerramenta = scanner.nextLine();
             Ferramenta f = buscaFerramenta(nomeFerramenta, ferramentas);
             
-            if(f != null){
+            if(f != null && !user.getNome().equals(f.getProprietario().getNome())){
                 LocalDate data = LocalDate.now();
                 
                 Transacao t = new Transacao(user, f, data);
