@@ -57,6 +57,32 @@ public class Carregamento {
         ferramenta = new Ferramenta("Alicate", "Alicate universal", 12.0, "manual", usuario);
         usuario.adicionarFerramenta(ferramenta);
         ferramentas.add(ferramenta);
+        
+        usuario = plataforma.buscaUsuario("00000000002", usuarios);
+        ferramenta = new Ferramenta("Furadeira de Impacto", "Furadeira de impacto 500W", 25.0, "eletrica", usuario);
+        usuario.adicionarFerramenta(ferramenta);
+        ferramentas.add(ferramenta);
+
+        usuario = plataforma.buscaUsuario("00000000003", usuarios);
+        ferramenta = new Ferramenta("Lixadeira", "Lixadeira orbital com velocidade ajustável", 30.0, "eletrica", usuario);
+        usuario.adicionarFerramenta(ferramenta);
+        ferramentas.add(ferramenta);
+
+        usuario = plataforma.buscaUsuario("00000000004", usuarios);
+        ferramenta = new Ferramenta("Chave inglesa", "Chave inglesa grande", 15.0, "manual", usuario);
+        usuario.adicionarFerramenta(ferramenta);
+        ferramentas.add(ferramenta);
+
+        usuario = plataforma.buscaUsuario("00000000001", usuarios);
+        ferramenta = new Ferramenta("Serra Tico-Tico", "Serra Tico-Tico elétrica 220V", 40.0, "eletrica", usuario);
+        usuario.adicionarFerramenta(ferramenta);
+        ferramentas.add(ferramenta);
+
+        usuario = plataforma.buscaUsuario("00000000005", usuarios);
+        ferramenta = new Ferramenta("Martelo", "Martelo cabeça dupla", 10.0, "manual", usuario);
+        usuario.adicionarFerramenta(ferramenta);
+        ferramentas.add(ferramenta);
+
 
     }
     
@@ -89,6 +115,10 @@ public class Carregamento {
         ferramenta = plataforma.buscaFerramenta("Furadeira", ferramentas);
         transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 5));
         transacoes.add(transacao);
-
+        
+        usuario = plataforma.buscaUsuario("00000000002", usuarios);
+        ferramenta = plataforma.buscaFerramenta("Lixadeira", ferramentas);
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 6));
+        transacoes.add(transacao);
     }
 }
