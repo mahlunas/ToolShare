@@ -93,32 +93,32 @@ public class Carregamento {
 
         usuario = plataforma.buscaUsuario("00000000001", usuarios);
         ferramenta = plataforma.buscaFerramenta("Martelo", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 1));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 1), 5);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000002", usuarios);
         ferramenta = plataforma.buscaFerramenta("Chave de Fenda", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 2));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 2), 10);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000003", usuarios);
         ferramenta = plataforma.buscaFerramenta("Alicate", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 3));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 3), 3);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000004", usuarios);
         ferramenta = plataforma.buscaFerramenta("Serra Circular", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 4));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 4), 4);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000005", usuarios);
         ferramenta = plataforma.buscaFerramenta("Furadeira", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 5));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 5), 6);
         transacoes.add(transacao);
         
         usuario = plataforma.buscaUsuario("00000000002", usuarios);
         ferramenta = plataforma.buscaFerramenta("Lixadeira", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 6));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 6), 8);
         transacoes.add(transacao);
     }
 }
