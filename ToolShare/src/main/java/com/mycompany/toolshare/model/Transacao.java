@@ -24,7 +24,7 @@ public class Transacao {
         this.usuario = usuario;
         this.ferramenta = ferramenta;
         this.dataInicio = dataInicio;
-        this.ferramenta.alterarStatus("alugada");
+        this.ferramenta.alterarStatus("alugada", ferramenta);
         this.status = StatusTransacao.ATIVO;
     }
 

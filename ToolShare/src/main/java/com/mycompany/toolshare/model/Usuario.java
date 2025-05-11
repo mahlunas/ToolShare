@@ -64,7 +64,7 @@ public class Usuario {
         }
     }
     
-    public boolean adicionarFerramentas(Ferramenta ferramenta){
+    public boolean adicionarFerramenta(Ferramenta ferramenta){
         if(contador < ferramentas.length){
             ferramentas[contador] = ferramenta;
             contador ++;

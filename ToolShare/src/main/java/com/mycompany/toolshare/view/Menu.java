@@ -19,8 +19,8 @@ public class Menu {
     }
     
     public void menuDeUsuarios(){
-        System.out.println("==== GERENCIAR USUARIOAS ====");
-        System.out.println("1 - Cadastrar Novov Usuario");
+        System.out.println("==== GERENCIAR USUARIOS ====");
+        System.out.println("1 - Cadastrar Novo Usuario");
         System.out.println("2 - Consultar por CPF");
         System.out.println("3 - Editar Cadastro");
         System.out.println("4 - Excluir Usuario");

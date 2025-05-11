@@ -61,7 +61,7 @@ public class Plataforma {
         return true;
     }
     
-    private Usuario buscaUsuario(String cpf, ArrayList<Usuario> usuarios){
+    public Usuario buscaUsuario(String cpf, ArrayList<Usuario> usuarios){
         for(Usuario u: usuarios){
             if(cpf.equals(u.getCpf())){
                 return u;
@@ -83,7 +83,7 @@ public class Plataforma {
     }
     
     private void imprimeUsuario(Usuario user){
-        System.out.println("- Nome:" + user.getNome() + " | CPF:" + user.getNome() + " | Contato:" + user.getContato());
+        System.out.println("- Nome:" + user.getNome() + " | CPF:" + user.getCpf() + " | Contato:" + user.getContato());
     }
     
     public void editarCadastro(ArrayList<Usuario> usuarios, Scanner scanner){
@@ -155,6 +155,7 @@ public class Plataforma {
         
         
         Ferramenta ferramenta = new Ferramenta(nome, descricao, precoPorDia, categoria, user);
+        user.adicionarFerramenta(ferramenta);
         return ferramenta;
     }
     
@@ -180,7 +181,7 @@ public class Plataforma {
         return true;
     }
     
-    private Ferramenta buscaFerramenta(String nomeFerramenta, ArrayList<Ferramenta> ferramentas){
+    public Ferramenta buscaFerramenta(String nomeFerramenta, ArrayList<Ferramenta> ferramentas){
         for(Ferramenta f : ferramentas){
             if(nomeFerramenta.equals(f.getNome())){
                 return f;
@@ -226,7 +227,7 @@ public class Plataforma {
             if(f.getProprietario().getCpf().equals(cpf)){
                 System.out.println("Insira o status desejado");
                 String status = scanner.nextLine();
-                f.alterarStatus(status);
+                f.alterarStatus(status, f);
             } else {
                 System.out.println("Acesso negado. Usuario não é o proprietario da ferramenta");
             }
