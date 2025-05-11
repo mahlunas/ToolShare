@@ -73,10 +73,9 @@ public class ToolShare {
                 
                 //menu de ferramentas
                 case 2:
-                    menu.menuDeFerramentas();
-                    opMenus = scanner.nextInt();
-                    
                     do{
+                        menu.menuDeFerramentas();
+                        opMenus = scanner.nextInt();
                         switch(opMenus){
                             case 1:
                                 ferramenta = plataforma.cadastrarFerramenta(ferramentas, scanner, usuarios);
@@ -97,8 +96,27 @@ public class ToolShare {
                 
                 //menu de alugueis
                 case 3:
-                    menu.menuDeAlugueis();
-                    opMenus = scanner.nextInt();
+                    do{
+                        menu.menuDeAlugueis();
+                        opMenus = scanner.nextInt();
+                        
+                        switch(opMenus){
+                            case 1:
+                                transacao = plataforma.cadastrarTransacao(transacoes, usuarios, ferramentas, scanner);
+                                if(transacao != null){
+                                    transacoes.add(transacao);
+                                    System.out.println("Transacao cadastrada com sucesso");
+                                }
+                            case 2:
+                                plataforma.devolverFerramenta(transacoes, usuarios, ferramentas, scanner);
+                            case 3:
+                                plataforma.consultaAluguelAtivo(transacoes);
+                            case 4:
+                               Double x = plataforma.calcularMulta(transacoes, usuarios, ferramentas, scanner);
+                            case 5:
+                                plataforma.listarHistorico(transacoes);
+                        }
+                    }while(opMenus != 6);
             }
         }while(opPrincipal!=5);
     }
