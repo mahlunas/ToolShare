@@ -27,10 +27,8 @@ public class Plataforma {
     public Usuario cadastrarUsuario(ArrayList<Usuario> usuarios, Scanner scanner){
         System.out.println("Cadastro de Usuario");
             
-        String cpf;
-        
         System.out.println("CPF:");
-        cpf = scanner.nextLine();
+        String cpf = scanner.nextLine();
         boolean unico = verificaDuplicidadeCpf(cpf, usuarios);
         if(unico == true){
             System.out.println("Nome:");
@@ -123,15 +121,67 @@ public class Plataforma {
     }
     
     //Controle de Ferramentas
-    public void cadastrarFerramenta(Ferramenta ferramenta){
-        boolean qtdFProprietario = ferramenta.proprietario.adicionarFerramentas(ferramenta);
-        if(qtdFProprietario){
-            ferramentas.add(ferramenta);
+    public Ferramenta cadastrarFerramenta(ArrayList<Ferramenta> ferramentas, Scanner scanner, ArrayList<Usuario> usuarios){
+        System.out.println("Cadastro de Ferramenta");
+        
+        System.out.println("Insira seu CPF:");
+        String cpf = scanner.nextLine();
+        Usuario user = buscaUsuario(cpf, usuarios);
+        if(user.getContador()>=5){
+            System.out.println("Limite de ferramentas cadastradas atingidas");
+            return null;
         }
         
+        System.out.println("Insira o nome da ferramenta:");
+        String nome = scanner.nextLine();
+        boolean unico = verificaFerramentaDuplicada(nome, ferramentas);
+        if(!unico){
+            System.out.println("Nome inserida ja esta cadastrado");
+            return null;
+        }
+        
+        System.out.println("Insira a descricao:");
+        String descricao = scanner.nextLine();
+        
+        System.out.println("Insira a categoria (ELETRICA | MANUAL | JARDIM):");
+        String categoria = scanner.nextLine().toLowerCase();
+        
+        Double precoPorDia, valorMin;
+        do{
+            System.out.println("Insira o preco diario do alguel:");
+            precoPorDia = scanner.nextDouble();
+            
+            valorMin = verificaCategoria(categoria);
+        }while(precoPorDia < valorMin);
+        
+        
+        Ferramenta ferramenta = new Ferramenta(nome, descricao, precoPorDia, categoria, user);
+        return ferramenta;
     }
     
-    private Ferramenta buscaFerramenta(String nomeFerramenta){
+    public Double verificaCategoria(String categoria){
+        switch(categoria){
+            case "eletrica":
+                return 15.0;
+            case "manual":
+                return 8.0;
+            case "jardim":
+                return 12.0;
+            default:
+                return 0.0;
+        }
+    }
+    
+    public boolean verificaFerramentaDuplicada(String nome, ArrayList<Ferramenta> ferramentas){
+        for(Ferramenta f : ferramentas){
+            if(nome.equals(f.getNome())){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private Ferramenta buscaFerramenta(String nomeFerramenta, ArrayList<Ferramenta> ferramentas){
         for(Ferramenta f : ferramentas){
             if(nomeFerramenta.equals(f.getNome())){
                 return f;
@@ -152,8 +202,10 @@ public class Plataforma {
         }
     }
     
-    public void consultaFerramenta(String nome){
-        Ferramenta f = buscaFerramenta(nome);
+    public void consultaFerramenta(ArrayList<Ferramenta> ferramentas, Scanner scanner){
+        System.out.println("Insira o nome da ferramenta desejada:");
+        String nome = scanner.nextLine();
+        Ferramenta f = buscaFerramenta(nome, ferramentas);
         if(f == null){
             System.out.println("Ferramenta não encontrada");
         } else {
@@ -161,14 +213,20 @@ public class Plataforma {
         }
     }
     
-    public void alteraStatus(String ferramenta, Usuario user, String status){
-        Ferramenta f = buscaFerramenta(ferramenta);
+    public void alteraStatus(ArrayList<Ferramenta> ferramentas, Scanner scanner){
+        System.out.println("Insira o nome da ferramenta desejada:");
+        String nome = scanner.nextLine();
+        Ferramenta f = buscaFerramenta(nome, ferramentas);
         //verifica se a ferramenta esta cadastrada
         if(f == null){
             System.out.println("Ferramenta não encontrada");
         } else {
+            System.out.println("Insira seu CPF:");
+            String cpf = scanner.nextLine();
             //verifica se é o proprietario
-            if(f.getProprietario().getCpf().equals(user.getCpf())){
+            if(f.getProprietario().getCpf().equals(cpf)){
+                System.out.println("Insira o status desejado");
+                String status = scanner.nextLine();
                 f.alterarStatus(status);
             } else {
                 System.out.println("Acesso negado. Usuario não é o proprietario da ferramenta");
@@ -176,8 +234,18 @@ public class Plataforma {
         }
     }
     
-    public void alterarPreco(Double novoValor, Ferramenta f){
-        Double valorMin = f.verificaCategoria(f.getCategoria());
+    public void alterarPreco(ArrayList<Ferramenta> ferramentas ,Scanner scanner){
+        System.out.println("Digite o nome da ferramenta que deseja alterar o valor:");
+        String nome = scanner.nextLine();
+        Ferramenta f = buscaFerramenta(nome, ferramentas);
+        if(f == null){
+            System.out.println("Usuario não encontrado!");
+            return;
+        }
+        
+        System.out.println("Insira o novo valor:");
+        Double novoValor = scanner.nextDouble();
+        Double valorMin = verificaCategoria(f.getCategoria());
         if(novoValor < valorMin){
             System.out.println("Valor abaixo do valor minimo! (" + valorMin + ")");
         } else{

@@ -44,6 +44,10 @@ public class Usuario {
     public void setCpf(String cpf) {
         this.cpf = cpf;
     }
+    
+    public int getContador(){
+        return contador;
+    }
 
     public Ferramenta getFerramentas(int index) {
         if(index >= 0 && index < ferramentas.length){
