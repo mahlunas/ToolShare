@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.mycompany.toolshare.controller.Plataforma;
 import com.mycompany.toolshare.view.Menu;
+import com.mycompany.toolshare.controller.Carregamento;
 /**
  *
  * @author lunas
@@ -30,8 +31,8 @@ public class ToolShare {
         Scanner scanner = new Scanner(System.in);
         Plataforma plataforma = new Plataforma();
         Menu menu = new Menu();
-        int opPrincipal, opMenus;
-        
+        int opPrincipal, opMenus, encerrarMenu;
+        Carregamento.Carregar(transacoes, usuarios, ferramentas, plataforma);
         do{
             menu.menuPrincipal();
             opPrincipal = scanner.nextInt();
@@ -51,12 +52,15 @@ public class ToolShare {
                                     usuarios.add(usuario);
                                     System.out.println("Usuario cadastrado com sucesso!");
                                 }
+                            break;
                             //consultar cpf
                             case 2:
                                 plataforma.cadastrarUsuario(usuarios, scanner);
+                            break;
                             //editar cadastro
                             case 3:
                                 plataforma.editarCadastro(usuarios, scanner);
+                            break;
                             //excluir usuario
                             case 4:
                                 usuario = plataforma.excluirUsuario(usuarios, scanner);
@@ -64,13 +68,15 @@ public class ToolShare {
                                     usuarios.remove(usuario);
                                     System.out.println("Usuario removido");
                                 }
+                            break;
                             //listar todos os usuarios
                             case 5:
                                 plataforma.listarUsuario(usuarios);
+                            break;
                         }
                         
                     }while(opMenus != 6);
-                
+                break;
                 //menu de ferramentas
                 case 2:
                     do{
@@ -83,17 +89,22 @@ public class ToolShare {
                                     ferramentas.add(ferramenta);
                                     System.out.println("Ferramenta cadastrada com sucesso");
                                 }
+                            break;
                             case 2:
                                 plataforma.consultaFerramenta(ferramentas, scanner);
+                            break;
                             case 3:
                                 plataforma.alterarPreco(ferramentas, scanner);
+                            break;
                             case 4:
                                 plataforma.alteraStatus(ferramentas, scanner);
+                            break;
                             case 5:
                                 plataforma.listaFerramentas(ferramentas);
+                            break;
                         }
                     }while(opMenus != 6);
-                
+                break;
                 //menu de alugueis
                 case 3:
                     do{
@@ -107,16 +118,27 @@ public class ToolShare {
                                     transacoes.add(transacao);
                                     System.out.println("Transacao cadastrada com sucesso");
                                 }
+                            break;
                             case 2:
                                 plataforma.devolverFerramenta(transacoes, usuarios, ferramentas, scanner);
+                            break;
                             case 3:
                                 plataforma.consultaAluguelAtivo(transacoes);
+                            break;
                             case 4:
                                Double x = plataforma.calcularMulta(transacoes, usuarios, ferramentas, scanner);
+                            break;
                             case 5:
                                 plataforma.listarHistorico(transacoes);
+                            break;
                         }
-                    }while(opMenus != 6);
+                        encerrarMenu = opMenus;
+                    }while(encerrarMenu != 6);
+                break;
+                
+                case 4:
+                  
+                break;    
             }
         }while(opPrincipal!=5);
     }

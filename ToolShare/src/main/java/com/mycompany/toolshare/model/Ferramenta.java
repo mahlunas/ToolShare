@@ -73,9 +73,9 @@ public class Ferramenta {
         this.proprietario = proprietario;
     }
     
-    public void alterarStatus(String novoStatus){
+    public void alterarStatus(String novoStatus, Ferramenta f){
         try{
-            this.status = StatusFerramenta.valueOf(novoStatus.toUpperCase());
+            f.status = StatusFerramenta.valueOf(novoStatus.toUpperCase());
             System.out.println("Status alterado com sucesso. Novo status:" + novoStatus);
         } catch (IllegalArgumentException e){
             System.out.println("Status inválido:" + novoStatus);
