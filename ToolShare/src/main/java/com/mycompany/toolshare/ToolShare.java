@@ -79,13 +79,17 @@ public class ToolShare {
                     do{
                         switch(opMenus){
                             case 1:
-                                
+                                ferramenta = plataforma.cadastrarFerramenta(ferramentas, scanner, usuarios);
+                                if(ferramenta != null){
+                                    ferramentas.add(ferramenta);
+                                    System.out.println("Ferramenta cadastrada com sucesso");
+                                }
                             case 2:
-                                
+                                plataforma.consultaFerramenta(ferramentas, scanner);
                             case 3:
-                                
+                                plataforma.alterarPreco(ferramentas, scanner);
                             case 4:
-                                
+                                plataforma.alteraStatus(ferramentas, scanner);
                             case 5:
                                 plataforma.listaFerramentas(ferramentas);
                         }
@@ -94,6 +98,7 @@ public class ToolShare {
                 //menu de alugueis
                 case 3:
                     menu.menuDeAlugueis();
+                    opMenus = scanner.nextInt();
             }
         }while(opPrincipal!=5);
     }

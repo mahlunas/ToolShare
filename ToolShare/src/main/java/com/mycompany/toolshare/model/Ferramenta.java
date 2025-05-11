@@ -4,6 +4,8 @@
  */
 package com.mycompany.toolshare.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author lunas
@@ -77,19 +79,6 @@ public class Ferramenta {
             System.out.println("Status alterado com sucesso. Novo status:" + novoStatus);
         } catch (IllegalArgumentException e){
             System.out.println("Status inválido:" + novoStatus);
-        }
-    }
-    
-    public Double verificaCategoria(String categoria){
-        switch(categoria){
-            case "eletrica":
-                return 15.0;
-            case "manual":
-                return 8.0;
-            case "jardim":
-                return 12.0;
-            default:
-                return 0.0;
         }
     }
 }
