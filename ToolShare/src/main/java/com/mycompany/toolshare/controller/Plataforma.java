@@ -20,7 +20,6 @@ import java.util.Scanner;
  * @author lunas
  */
 public class Plataforma {
-    private static List<Ferramenta> ferramentas = new ArrayList<>();
     private static List<Transacao> transacoes = new ArrayList<>();
     
     //Controles de Usuarios
@@ -256,21 +255,52 @@ public class Plataforma {
     
     //Controle de Transacoes
     
-    public void cadastrarTransacao(Transacao novaTransacao){
+    public Transacao cadastrarTransacao(ArrayList<Transacao> transacoes, ArrayList<Usuario> usuarios, ArrayList<Ferramenta> ferramentas, Scanner scanner){
+        System.out.println("Digite o nome do locador:");
+        String nomeUsuario = scanner.nextLine();
+        Usuario user = buscaUsuario(nomeUsuario, usuarios);
+        if(user != null){
+            System.out.println("Digite o nome da ferramenta desejada:");
+            String nomeFerramenta = scanner.nextLine();
+            Ferramenta f = buscaFerramenta(nomeFerramenta, ferramentas);
+            
+            if(f != null){
+                LocalDate data = LocalDate.now();
+                
+                Transacao t = new Transacao(user, f, data);
+                return t;
+            }
+        }
+        
+        System.out.println("Erro ao realizar o cadastro da Transacao");
+        return null;
+    }
+    
+    public void devolverFerramenta(ArrayList<Transacao> transacoes, ArrayList<Usuario> usuarios, ArrayList<Ferramenta> ferramentas, Scanner scanner){
+        System.out.println("Digite o nome do usuario da transacao:");
+        String nomeUsuario = scanner.nextLine();
+        
+        System.out.println("Digite o nome da ferramenta da transacao");
+        String nomeFerramenta = scanner.nextLine();
+        
+        Transacao t = buscaTransacao(nomeUsuario, nomeFerramenta, transacoes, usuarios, ferramentas);
+        
+        if(t != null){
+            int diasAlugados = calculaDias(t.getDataInicio(), t);
+            t.setDataFim(LocalDate.now());
+            System.out.println("dias alugados:" + diasAlugados);
+            Double valorAluguel = t.getFerramenta().getPrecoPorDia() * diasAlugados;
+            calculaDias(t.getDataFim(), t);
+            Double valorTotal = valorAluguel + calcularMulta(transacoes, usuarios, ferramentas, scanner);
+            System.out.println("Valor Total:" + valorTotal);
+            t.setStatus(StatusTransacao.DESATIVADO);
+        } else{
+            System.out.println("Transacao nao encontrada!");
+        }
         
     }
     
-    public void devolverFerramenta(Transacao transacao){
-        int diasAlugados = calculaDias(transacao.getDataInicio(),transacao);
-        transacao.setDataFim(LocalDate.now());
-        System.out.println("dias alugados:" + diasAlugados);
-        Double valorAluguel = transacao.getFerramenta().getPrecoPorDia() * diasAlugados;
-        calculaDias(transacao.getDataFim(), transacao);
-        Double valorTotal = valorAluguel + calcularMulta(transacao);
-        System.out.println("Valor Total:" + valorTotal);
-    }
-    
-    public void consultaAluguelAtivo(){
+    public void consultaAluguelAtivo(ArrayList<Transacao> transacoes){
         for(Transacao t : transacoes){
             if(t.getStatus() == StatusTransacao.ATIVO){
                 imprimeTransacao(t);
@@ -278,7 +308,7 @@ public class Plataforma {
         }
     }
     
-    public void listarHistorico(){
+    public void listarHistorico(ArrayList<Transacao> transacoes){
         for(Transacao t : transacoes){
             imprimeTransacao(t);
         }
@@ -291,16 +321,43 @@ public class Plataforma {
         System.out.println("  Data aluguel:" + t.getDataInicio() + " | Data devolucao:" + t.getDataFim());
     }
     
-    private Double calcularMulta(Transacao t){
-        t.setDiasAtraso(calculaDias(t.getDataInicio(), t));
-        Double valorMulta = t.getDiasAtraso() * 0.1;
-        System.out.println("valorMulta:" + valorMulta);
-        return valorMulta;
+    public Double calcularMulta(ArrayList<Transacao> transacoes, ArrayList<Usuario> usuarios, ArrayList<Ferramenta> ferramentas, Scanner scanner){
+        System.out.println("Digite o nome do usuario da transacao:");
+        String nomeUsuario = scanner.nextLine();
+        
+        System.out.println("Digite o nome da ferramenta da transacao");
+        String nomeFerramenta = scanner.nextLine();
+        
+        Transacao t = buscaTransacao(nomeUsuario, nomeFerramenta, transacoes, usuarios, ferramentas);
+        if( t!= null){
+             t.setDiasAtraso(calculaDias(t.getDataInicio(), t));
+            Double valorMulta = t.getDiasAtraso() * 0.1;
+            System.out.println("valorMulta:" + valorMulta);
+            return valorMulta;
+        }
+        
+        return 0.0;
     }
     
     private int calculaDias(LocalDate data, Transacao t){
         LocalDate dataFinal = t.getDataInicio().plusDays(t.getDiasAtraso());
         int qtdDias =(int) ChronoUnit.DAYS.between(data, dataFinal);
         return Math.abs(qtdDias);
+    }
+    
+    private Transacao buscaTransacao(String nomeUsuario, String nomeFerramenta, ArrayList<Transacao> transacoes, ArrayList<Usuario> usuarios, ArrayList<Ferramenta> ferramentas){
+        for(Transacao t : transacoes){
+            Usuario user = buscaUsuario(nomeUsuario, usuarios);
+            if(user != null && user.getNome().equals(t.getUsuario().getNome())){
+                Ferramenta f = buscaFerramenta(nomeFerramenta, ferramentas);
+                if(f != null && f.getNome().equals(t.getFerramenta().getNome())){
+                    if(t.getStatus().equals(StatusTransacao.ATIVO)){
+                        return t; 
+                    }
+                }
+            }
+        }
+        
+        return null;
     }
 }
