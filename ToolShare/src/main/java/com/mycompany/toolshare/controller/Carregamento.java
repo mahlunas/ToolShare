@@ -22,11 +22,11 @@ public class Carregamento {
     }
     
     public static void carregarUsuario(ArrayList<Usuario> usuarios){
-        usuarios.add(new Usuario("Marcelle", "1899999999", "00000000001"));
-        usuarios.add(new Usuario("João", "1198888888", "00000000002"));
-        usuarios.add(new Usuario("Ana", "2197777777", "00000000003"));
-        usuarios.add(new Usuario("Carlos", "3196666666", "00000000004"));
-        usuarios.add(new Usuario("Beatriz", "4195555555", "00000000005"));
+        usuarios.add(new Usuario("Marcelle", "1899999999", "00000000001", LocalDate.of(2003, 1, 26)));
+        usuarios.add(new Usuario("João", "1198888888", "00000000002", LocalDate.of(1995, 5, 15)));
+        usuarios.add(new Usuario("Ana", "2197777777", "00000000003", LocalDate.of(1988, 10, 30)));
+        usuarios.add(new Usuario("Carlos", "3196666666", "00000000004", LocalDate.of(2000, 3, 8)));
+        usuarios.add(new Usuario("Beatriz", "4195555555", "00000000005", LocalDate.of(1992, 7, 22)));
     }
     
     public static void carregarFerramenta(ArrayList<Ferramenta> ferramentas, ArrayList<Usuario> usuarios, Plataforma plataforma){

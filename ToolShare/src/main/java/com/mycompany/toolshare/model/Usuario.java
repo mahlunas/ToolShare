@@ -4,6 +4,8 @@
  */
 package com.mycompany.toolshare.model;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author lunas
@@ -12,13 +14,15 @@ public class Usuario {
     private String nome;
     private String contato;
     private String cpf;
-    public Ferramenta[] ferramentas = new Ferramenta[5];
+    public LocalDate dataNascimento;
+    private Ferramenta[] ferramentas = new Ferramenta[5];
     private int contador = 0;
     
-    public Usuario (String nome, String contato, String cpf){
+    public Usuario (String nome, String contato, String cpf, LocalDate nascimento){
         this.nome = nome;
         this.contato = contato;
         this.cpf = cpf;
+        this.dataNascimento = nascimento;
     }
 
     public String getNome() {
@@ -73,5 +77,25 @@ public class Usuario {
             System.out.println("Limite de ferramentas atingido");
             return false;
         }
+    }
+    
+    public boolean maiorDeIdade() {
+        return getDataNascimento().plusYears(18).isBefore(LocalDate.now());
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(LocalDate dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+    
+    @Override
+    public String toString(){
+        return "- Nome:" + nome + 
+               " | CPF:" + cpf + 
+               " | Contato:" + contato + 
+               " | Data de Nascimento:" + dataNascimento;
     }
 }
