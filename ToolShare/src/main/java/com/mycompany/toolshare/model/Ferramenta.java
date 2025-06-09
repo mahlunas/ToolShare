@@ -16,7 +16,7 @@ public class Ferramenta {
     private Double precoPorDia;
     private String categoria;
     private StatusFerramenta status;
-    public Usuario proprietario;
+    private Usuario proprietario;
     
     public Ferramenta(){}
     
@@ -80,5 +80,13 @@ public class Ferramenta {
         } catch (IllegalArgumentException e){
             System.out.println("Status inválido:" + novoStatus);
         }
+    }
+    
+    @Override
+    public String toString(){
+        return "- Nome:" + nome + 
+               " | Descricao:" + descricao + 
+               " | Categoria:" + categoria + 
+               " | Status:" + status;
     }
 }

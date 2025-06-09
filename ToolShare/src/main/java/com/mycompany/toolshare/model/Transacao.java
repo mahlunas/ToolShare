@@ -20,10 +20,11 @@ public class Transacao {
     private Double multa;
     private StatusTransacao status;
     
-    public Transacao(Usuario usuario, Ferramenta ferramenta, LocalDate dataInicio){
+    public Transacao(Usuario usuario, Ferramenta ferramenta, LocalDate dataInicio, int diasAluguel){
         this.usuario = usuario;
         this.ferramenta = ferramenta;
         this.dataInicio = dataInicio;
+        this.dataFim = dataInicio.plusDays(diasAluguel);
         this.ferramenta.alterarStatus("alugada", ferramenta);
         this.status = StatusTransacao.ATIVO;
     }
@@ -78,5 +79,13 @@ public class Transacao {
 
     public void setStatus(StatusTransacao status) {
         this.status = status;
+    }
+    
+    @Override
+    public String toString(){
+        return "- Locador:" + usuario.getNome() + " | Locatorio:" + ferramenta.getProprietario().getNome() +
+        "  Ferramenta:" + ferramenta.getNome() + " | Categoria:" + ferramenta.getCategoria() + " | Preco por dia:" + ferramenta.getPrecoPorDia() +
+        "  Descricao:" + ferramenta.getDescricao() +
+        "  Data aluguel:" + dataInicio + " | Data devolucao:" + dataFim;
     }
 }

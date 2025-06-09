@@ -10,6 +10,7 @@ import com.mycompany.toolshare.model.Usuario;
 import com.mycompany.toolshare.model.StatusFerramenta;
 import com.mycompany.toolshare.model.StatusTransacao;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,13 @@ public class Plataforma {
         
             System.out.println("Contato:");
             String contato = scanner.nextLine();
-            Usuario user = new Usuario(nome, contato, cpf);
+            
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            System.out.println("Data de nascimento:");
+            String dataEntrada = scanner.nextLine();
+            LocalDate dataNascimento = LocalDate.parse(dataEntrada, formatter);
+            
+            Usuario user = new Usuario(nome, contato, cpf, dataNascimento);
             return user;
         }else {
             return null;
@@ -47,7 +54,7 @@ public class Plataforma {
             System.out.println("Nenhum usuario cadastrado");
         } else{
             for(Usuario u : usuarios){
-                imprimeUsuario(u);
+                System.out.println(u);
             }
         }
     }
@@ -78,12 +85,8 @@ public class Plataforma {
         if(busca == null){
             System.out.println("Usuario nao cadastrado");
         } else {
-            imprimeUsuario(busca);
+            System.out.println(busca);
         }
-    }
-    
-    private void imprimeUsuario(Usuario user){
-        System.out.println("- Nome:" + user.getNome() + " | CPF:" + user.getCpf() + " | Contato:" + user.getContato());
     }
     
     public void editarCadastro(ArrayList<Usuario> usuarios, Scanner scanner){
@@ -190,14 +193,11 @@ public class Plataforma {
         return null;
     }
     
-    private void imprimeFerramenta(Ferramenta f){
-        System.out.println("- Nome:" + f.getNome() + " | Descricao:" + f.getDescricao() + " | Categoria:" + f.getCategoria() + " | Status:" + f.getStatus());
-    }
     
     public void listaFerramentas(ArrayList<Ferramenta> ferramentas){
         for(Ferramenta f : ferramentas){
             if(f.getStatus() == StatusFerramenta.DISPONIVEL){
-                imprimeFerramenta(f);
+                System.out.println(f);
             }
         }
     }
@@ -209,7 +209,7 @@ public class Plataforma {
         if(f == null){
             System.out.println("Ferramenta não encontrada");
         } else {
-            imprimeFerramenta(f);
+            System.out.println(f);
         }
     }
     
@@ -260,22 +260,49 @@ public class Plataforma {
         System.out.println("Digite o nome do locador:");
         String nomeUsuario = scanner.nextLine();
         Usuario user = buscaUsuario(nomeUsuario, usuarios);
-        if(user != null){
-            System.out.println("Digite o nome da ferramenta desejada:");
-            String nomeFerramenta = scanner.nextLine();
-            Ferramenta f = buscaFerramenta(nomeFerramenta, ferramentas);
-            
-            if(f != null && !user.getNome().equals(f.getProprietario().getNome())){
-                LocalDate data = LocalDate.now();
-                
-                Transacao t = new Transacao(user, f, data);
-                return t;
-            }
+        if(user == null){
+            System.out.println("Usuario não encontrado");
+            return null;
+        }
+        
+        System.out.println("Digite o nome da ferramenta desejada:");
+        String nomeFerramenta = scanner.nextLine();
+        Ferramenta f = buscaFerramenta(nomeFerramenta, ferramentas);
+        
+        if(f == null){
+            System.out.println("Ferramenta não encontrada");
+        }
+        
+        System.out.println("Insira a quantidade de dias desejado para aluguel:");
+        int diasAluguel = scanner.nextInt();
+        scanner.nextLine();
+        
+        if (!validarLocacao(user, f, diasAluguel)) {
+        System.out.println("Locação não permitida.");
+            return null;
         }
         
         System.out.println("Erro ao realizar o cadastro da Transacao");
         return null;
     }
+    
+    private boolean validarLocacao(Usuario user, Ferramenta f, int diasAluguel) {
+    boolean diferenteProprietario = !user.getNome().equals(f.getProprietario().getNome());
+
+    if (!diferenteProprietario) return false;
+
+    String categoria = f.getCategoria().toLowerCase();
+
+    if (categoria.equals("jardim")) {
+        return diasAluguel > 2;
+    }
+
+    if (categoria.equals("eletrica")) {
+        return user.maiorDeIdade();
+    }
+    
+    return true; 
+}
     
     public void devolverFerramenta(ArrayList<Transacao> transacoes, ArrayList<Usuario> usuarios, ArrayList<Ferramenta> ferramentas, Scanner scanner){
         System.out.println("Digite o nome do usuario da transacao:");
@@ -304,23 +331,17 @@ public class Plataforma {
     public void consultaAluguelAtivo(ArrayList<Transacao> transacoes){
         for(Transacao t : transacoes){
             if(t.getStatus() == StatusTransacao.ATIVO){
-                imprimeTransacao(t);
+                System.out.println(t);
             }
         }
     }
     
     public void listarHistorico(ArrayList<Transacao> transacoes){
         for(Transacao t : transacoes){
-            imprimeTransacao(t);
+            System.out.println(t);
         }
     }
     
-    private void imprimeTransacao(Transacao t){
-        System.out.println("- Locador:" + t.getUsuario().getNome() + " | Locatorio:" + t.getFerramenta().getProprietario().getNome());
-        System.out.println("  Ferramenta:" + t.getFerramenta().getNome() + " | Categoria:" + t.getFerramenta().getCategoria() + " | Preco por dia:" + t.getFerramenta().getPrecoPorDia());
-        System.out.println("  Descricao:" + t.getFerramenta().getDescricao());
-        System.out.println("  Data aluguel:" + t.getDataInicio() + " | Data devolucao:" + t.getDataFim());
-    }
     
     public Double calcularMulta(ArrayList<Transacao> transacoes, ArrayList<Usuario> usuarios, ArrayList<Ferramenta> ferramentas, Scanner scanner){
         System.out.println("Digite o nome do usuario da transacao:");

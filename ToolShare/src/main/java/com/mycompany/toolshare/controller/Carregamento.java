@@ -22,11 +22,11 @@ public class Carregamento {
     }
     
     public static void carregarUsuario(ArrayList<Usuario> usuarios){
-        usuarios.add(new Usuario("Marcelle", "1899999999", "00000000001"));
-        usuarios.add(new Usuario("João", "1198888888", "00000000002"));
-        usuarios.add(new Usuario("Ana", "2197777777", "00000000003"));
-        usuarios.add(new Usuario("Carlos", "3196666666", "00000000004"));
-        usuarios.add(new Usuario("Beatriz", "4195555555", "00000000005"));
+        usuarios.add(new Usuario("Marcelle", "1899999999", "00000000001", LocalDate.of(2003, 1, 26)));
+        usuarios.add(new Usuario("João", "1198888888", "00000000002", LocalDate.of(1995, 5, 15)));
+        usuarios.add(new Usuario("Ana", "2197777777", "00000000003", LocalDate.of(1988, 10, 30)));
+        usuarios.add(new Usuario("Carlos", "3196666666", "00000000004", LocalDate.of(2000, 3, 8)));
+        usuarios.add(new Usuario("Beatriz", "4195555555", "00000000005", LocalDate.of(1992, 7, 22)));
     }
     
     public static void carregarFerramenta(ArrayList<Ferramenta> ferramentas, ArrayList<Usuario> usuarios, Plataforma plataforma){
@@ -93,32 +93,32 @@ public class Carregamento {
 
         usuario = plataforma.buscaUsuario("00000000001", usuarios);
         ferramenta = plataforma.buscaFerramenta("Martelo", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 1));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 1), 5);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000002", usuarios);
         ferramenta = plataforma.buscaFerramenta("Chave de Fenda", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 2));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 2), 10);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000003", usuarios);
         ferramenta = plataforma.buscaFerramenta("Alicate", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 3));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 3), 3);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000004", usuarios);
         ferramenta = plataforma.buscaFerramenta("Serra Circular", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 4));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 4), 4);
         transacoes.add(transacao);
 
         usuario = plataforma.buscaUsuario("00000000005", usuarios);
         ferramenta = plataforma.buscaFerramenta("Furadeira", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 5));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 5), 6);
         transacoes.add(transacao);
         
         usuario = plataforma.buscaUsuario("00000000002", usuarios);
         ferramenta = plataforma.buscaFerramenta("Lixadeira", ferramentas);
-        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 6));
+        transacao = new Transacao(usuario, ferramenta, LocalDate.of(2025, 5, 6), 8);
         transacoes.add(transacao);
     }
 }
